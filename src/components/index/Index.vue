@@ -1,6 +1,4 @@
 <template style='height: 100%; border: 0px; margin:0px; padding:0px;'>
-
-
     <el-container class='el-container'>
         <el-header style='text-align: right; font-size: 12px'>
             <el-dropdown>
@@ -18,15 +16,15 @@
                 <el-menu class='el-menu-vertical'
                 :default-active='$route.path'
                 router>
-                    <el-menu-item :index='item.router'  v-for='item in menu' :key='item.key' :id='item.key'>
+                    <el-menu-item :index='item.router' v-for='item in menu' :key='item.key' :id='item.key'>
                         <i :class='item.icon'></i>
                         <span slot='title'>{{item.name}}</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
 
-            <el-main>  <router-view/>
-
+            <el-main>
+                <router-view></router-view>
             </el-main>
         </el-container>
     </el-container>
@@ -34,47 +32,44 @@
 </template>
 
 <script>
-    import Dashboard from '../dashboard/Dashboard.vue';
 
     export default {
-        components: {
-            Dashboard
-        },
+        name: 'index',
         data() {
             const menu = [
                 {
                     name: '首页',
-                    key: 'index',
+                    key: 'dashboard',
                     index: 1,
                     icon: 'el-icon-menu',
-                    router: 'index'
+                    router: '/dashboard'
                 },
                 {
                     name: '日志查询',
                     key: 'logQuery',
                     index: 2,
                     icon: 'el-icon-search',
-                    router: 'logQuery'
+                    router: '/logQuery'
                 },
                 {
                     name: '实时监控',
                     key: 'watch',
                     index: 3,
                     icon: 'el-icon-view',
-                    router: 'logWatch'
+                    router: '/logWatch'
                 },
                 {
                     name: '业务管理',
                     key: 'business',
                     index: 4,
                     icon: 'el-icon-tickets',
-                    router: 'business'
+                    router: '/business'
                 }, {
                     name: '用户管理',
                     key: 'user',
                     index: 5,
                     icon: 'el-icon-service',
-                    router: 'user'
+                    router: '/user'
                 },
 
             ];
@@ -86,15 +81,6 @@
 </script>
 
 <style>
-    .el-header {
-        background-color: #b3c0d1;
-        color: #333;
-        line-height: 60px;
-    }
-
-    .el-aside {
-        color: #333;
-    }
 
     .el-menu-vertical {
         height: 100%;
