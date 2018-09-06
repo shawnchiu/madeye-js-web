@@ -1,5 +1,6 @@
 <template style='height: 100%; border: 0px; margin:0px; padding:0px;'>
-    <el-container class='el-container'>
+    <el-container style="height: 100%; border: 1px solid #eee">
+
         <el-header style='text-align: right; font-size: 12px'>
             <el-dropdown>
                 <i class='el-icon-setting' style='margin-right: 15px'></i>
@@ -14,8 +15,8 @@
         <el-container style='height: 100%; border: 1px solid #eee'>
             <el-aside width='200px;' style='background-color: rgb(238, 241, 246)'>
                 <el-menu class='el-menu-vertical'
-                :default-active='$route.path'
-                router>
+                         :default-active='$route.path'
+                         router>
                     <el-menu-item :index='item.router' v-for='item in menu' :key='item.key' :id='item.key'>
                         <i :class='item.icon'></i>
                         <span slot='title'>{{item.name}}</span>
@@ -35,6 +36,9 @@
 
     export default {
         name: 'index',
+        created: function () {
+            this.$router.push('/dashboard');
+        },
         data() {
             const menu = [
                 {
@@ -85,6 +89,12 @@
     .el-menu-vertical {
         height: 100%;
         width: 200px;
+    }
+
+    .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
     }
 
     .el-container {

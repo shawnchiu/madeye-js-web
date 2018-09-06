@@ -1,20 +1,20 @@
 <template>
-    <div>
+    <el-container direction="vertical">
         <el-row>
-            <el-col >
-                <el-card>
+            <el-col>
+                <el-card style="text-align: left;">
                     <el-form :inline="true" :model="formInline" class="demo-form-inline">
                         <el-form-item label="业务名">
                             <el-input v-model="formInline.businessName" placeholder="业务名"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
-
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit">添加新业务</el-button>
                         </el-form-item>
                     </el-form>
+
                 </el-card>
 
             </el-col>
@@ -24,7 +24,7 @@
                 <el-card>
                     <el-table
                             :data="tableData"
-                            style="width: 100%;height: 800px;">
+                            style="width: 100%;">
                         <el-table-column
                                 fixed
                                 prop="businessId"
@@ -51,7 +51,7 @@
                 </el-card>
             </el-col>
         </el-row>
-    </div>
+    </el-container>
 </template>
 
 <script>

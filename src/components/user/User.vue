@@ -1,15 +1,14 @@
 <template>
-    <div>
+    <el-container direction="vertical">
         <el-row>
-            <el-col >
-                <el-card>
+            <el-col>
+                <el-card style="text-align: left;">
                     <el-form :inline="true" :model="formInline" class="demo-form-inline">
                         <el-form-item label="用户名">
                             <el-input v-model="formInline.userName" placeholder="用户名"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
-
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit">添加新用户</el-button>
@@ -20,7 +19,7 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-col >
+            <el-col>
                 <el-card>
                     <el-table
                             :data="tableData"
@@ -51,7 +50,7 @@
                 </el-card>
             </el-col>
         </el-row>
-    </div>
+    </el-container>
 </template>
 
 <script>
@@ -95,29 +94,38 @@
         height: 350px;
         width: 100%;
     }
+
     .el-row {
         margin-bottom: 20px;
-    &:last-child {
-         margin-bottom: 0;
-     }
+
+    &
+    :last-child {
+        margin-bottom: 0;
+    }
+
     }
     .el-col {
         border-radius: 4px;
     }
+
     .bg-purple-dark {
         background: #99a9bf;
     }
+
     .bg-purple {
         background: #d3dce6;
     }
+
     .bg-purple-light {
         background: #e5e9f2;
     }
+
     .grid-content {
         border-radius: 4px;
         height: 100%;
         width: 100%;
     }
+
     .row-bg {
         padding: 10px 0;
         background-color: #f9fafc;
