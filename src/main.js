@@ -27,13 +27,15 @@ var router = new VueRouter({
                 {path: '/logWatch', component: Watch},
                 {path: '/business', component: Business}]
         },
-
         {path: '/login', component: Login}
 
     ]
 });
 
 new Vue({
+    created: function () {
+        this.$router.push('/index');
+    },
     el: '#app',
     router: router,
     render: h => h(App)
