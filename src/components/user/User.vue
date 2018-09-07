@@ -23,7 +23,7 @@
                 <el-card>
                     <el-table
                             :data="tableData"
-                            style="width: 100%;height: 800px;">
+                            style="width: 100%;height: 100%;">
                         <el-table-column
                                 fixed
                                 prop="userId"

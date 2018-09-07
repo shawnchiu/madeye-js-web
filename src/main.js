@@ -1,42 +1,22 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router/index'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import App from './App.vue';
-import Dashboard from './components/dashboard/Dashboard.vue';
-import Index from './components/index/Index.vue';
-import User from './components/user/User.vue';
-import LogQuery from './components/log/LogQuery.vue';
-import Watch from './components/log/Watch.vue';
-import Business from './components/business/Business.vue';
-import Login from './components/user/Login.vue';
 
-Vue.use(ElementUI);
-Vue.use(VueRouter);
-
+Vue.use(ElementUI)
+Vue.config.productionTip = false
 Vue.prototype.$ELEMENT = {size: 'small', zIndex: 3000};
 
-var router = new VueRouter({
-    routes: [
-        {
-            path: '/index', component: Index,
-            children: [
-                {path: '/dashboard', component: Dashboard},
-                {path: '/user', component: User},
-                {path: '/logQuery', component: LogQuery},
-                {path: '/logWatch', component: Watch},
-                {path: '/business', component: Business}]
-        },
-        {path: '/login', component: Login}
 
-    ]
-});
-
+/* eslint-disable no-new */
 new Vue({
-    created: function () {
-        this.$router.push('/index');
-    },
-    el: '#app',
-    router: router,
-    render: h => h(App)
-});
+  created: function () {
+    this.$router.push('/index');
+  },
+  el: '#app',
+  router,
+  render: h => h(App)
+})
