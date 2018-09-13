@@ -1,5 +1,5 @@
 <template>
-  <el-container direction="vertical" v-loading="loading">
+  <el-container direction="vertical" v-loading.sync="loading">
     <el-row>
       <el-col>
         <el-card style="text-align: left;">
@@ -24,13 +24,13 @@
         <el-card>
           <el-table
             :data="queryResults.content"
+            highlight-current-row
+            border="true"
             style="width: 100%;">
             <el-table-column
-              fixed
-              prop="businessId"
-              label="业务ID"
-              width="100px"
-            >
+              type="index"
+              label=""
+              width="50">
             </el-table-column>
             <el-table-column
               prop="businessName"
@@ -38,14 +38,18 @@
               width="300px">
             </el-table-column>
             <el-table-column
-              prop="description"
-              label="描述">
-            </el-table-column>
-            <el-table-column
-              fixed
               prop="createTime"
               label="创建时间"
               width="150px">
+            </el-table-column>
+            <el-table-column
+              prop="apiToken"
+              label="ApiToken"
+              width="250px">
+            </el-table-column>
+            <el-table-column
+              prop="description"
+              label="描述">
             </el-table-column>
           </el-table>
           <el-pagination
@@ -130,6 +134,7 @@
         })
       },
       conditionQuery() {
+        this.loading = true;
         var _this = this;
         Axios.post('http://localhost:20000/api/business/findByCondition', _this.condition)
           .then(function (res) {
