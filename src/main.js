@@ -18,5 +18,10 @@ new Vue({
   },
   el: '#app',
   router,
+  methods:{
+
+  },
   render: h => h(App)
-})
+});
+
+

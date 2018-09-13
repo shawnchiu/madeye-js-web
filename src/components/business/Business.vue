@@ -1,127 +1,192 @@
 <template>
-    <el-container direction="vertical">
-        <el-row>
-            <el-col>
-                <el-card style="text-align: left;">
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                        <el-form-item label="业务名">
-                            <el-input v-model="formInline.businessName" placeholder="业务名"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="onSubmit">添加新业务</el-button>
-                        </el-form-item>
-                    </el-form>
+  <el-container direction="vertical" v-loading="loading">
+    <el-row>
+      <el-col>
+        <el-card style="text-align: left;">
+          <el-form :inline="true" :model="condition" class="demo-form-inline">
+            <el-form-item label="业务名">
+              <el-input v-model="condition.businessName" placeholder="业务名"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button icon="el-icon-search" circle @click="conditionQuery"></el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="dialogFormVisible = true">添加新业务</el-button>
+            </el-form-item>
+          </el-form>
 
-                </el-card>
+        </el-card>
 
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col >
-                <el-card>
-                    <el-table
-                            :data="tableData"
-                            style="width: 100%;">
-                        <el-table-column
-                                fixed
-                                prop="businessId"
-                                label="业务ID"
-                                width="100px"
-                        >
-                        </el-table-column>
-                        <el-table-column
-                                prop="businessName"
-                                label="业务名"
-                                width="300px">
-                        </el-table-column>
-                        <el-table-column
-                                prop="memo"
-                                label="描述">
-                        </el-table-column>
-                        <el-table-column
-                                fixed
-                                prop="createTime"
-                                label="创建时间"
-                                width="150px">
-                        </el-table-column>
-                    </el-table>
-                </el-card>
-            </el-col>
-        </el-row>
-    </el-container>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <el-card>
+          <el-table
+            :data="queryResults.content"
+            style="width: 100%;">
+            <el-table-column
+              fixed
+              prop="businessId"
+              label="业务ID"
+              width="100px"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="businessName"
+              label="业务名"
+              width="300px">
+            </el-table-column>
+            <el-table-column
+              prop="description"
+              label="描述">
+            </el-table-column>
+            <el-table-column
+              fixed
+              prop="createTime"
+              label="创建时间"
+              width="150px">
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            style="margin-top: 20px;"
+            layout="prev, pager, next"
+            @current-change="conditionQuery"
+            :page-size="condition.pageSize"
+            :current-page.sync="condition.page"
+            :total="queryResults.totalElements">
+          </el-pagination>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-dialog title="添加新业务" :visible.sync="dialogFormVisible" :show-close="false">
+      <el-form :model="business" ref="business"
+      >
+        <el-form-item label="业务名称" :label-width="formLabelWidth"
+                      :rules="[{ required: true, message: '业务名称不能为空'}]">
+          <el-input v-model="business.businessName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="描述" :label-width="formLabelWidth">
+          <el-input v-model="business.description" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm">取 消</el-button>
+        <el-button type="primary" @click="submitForm('business')">确 定</el-button>
+      </div>
+    </el-dialog>
+
+  </el-container>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                formInline: {
-                    businessName: ''
 
-                },
-                tableData: [{
-                    createTime: '2016-05-02',
-                    businessName: '在线会员',
-                    businessId: 1,
-                    memo: '在线会员'
-                }, {
-                    createTime: '2016-05-02',
-                    businessName: '会员系统',
-                    businessId: 2,
-                    memo: '会员系统'
-                }, {
-                    createTime: '2016-05-02',
-                    businessName: '储值卡系统',
-                    businessId: 3,
-                    memo: '储值卡系统'
-                }, {
-                    createTime: '2016-05-02',
-                    businessName: '百感交集',
-                    businessId: 4,
-                    memo: '百感交集'
-                }]
-            }
+<script>
+  import Axios from 'axios'
+
+  export default {
+    data() {
+      return {
+        loading: false,
+        formLabelWidth: '80px',
+        dialogFormVisible: false,
+        condition: {businessName: '', page: 1, pageSize: 10},
+        queryResults:{content:[],totalElements:0},
+        business: {
+          description: '',
+          businessName: ''
         },
-        methods: {
-            onSubmit() {
-            }
-        }
+        tableData: []
+      }
+    },
+    methods: {
+      resetForm() {
+        this.business.description = '';
+        this.business.businessName = '';
+        this.dialogFormVisible = false;
+      },
+      onSubmit() {
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var _this = this;
+            _this.loading = true;
+            Axios.post('http://localhost:20000/api/business/addBusiness', _this.business)
+              .then(function (res) {
+                console.log(res);
+                _this.loading = false;
+                _this.resetForm();
+                _this.conditionQuery();
+              })
+              .catch(function (err) {
+                _this.loading = false;
+                _this.$message.error(err.message);
+              });
+
+          } else {
+            return false;
+          }
+        })
+      },
+      conditionQuery() {
+        var _this = this;
+        Axios.post('http://localhost:20000/api/business/findByCondition', _this.condition)
+          .then(function (res) {
+            console.log(res);
+            _this.loading = false;
+            _this.queryResults = res.data.result;
+            _this.resetForm();
+          })
+          .catch(function (err) {
+            _this.loading = false;
+            _this.$message.error(err.message);
+          });
+      }
     }
+  }
 </script>
 <style>
-    .box-card {
-        height: 350px;
-        width: 100%;
-    }
-    .el-row {
-        margin-bottom: 20px;
-    &:last-child {
-         margin-bottom: 0;
-     }
-    }
-    .el-col {
-        border-radius: 4px;
-    }
-    .bg-purple-dark {
-        background: #99a9bf;
-    }
-    .bg-purple {
-        background: #d3dce6;
-    }
-    .bg-purple-light {
-        background: #e5e9f2;
-    }
-    .grid-content {
-        border-radius: 4px;
-        height: 100%;
-        width: 100%;
-    }
-    .row-bg {
-        padding: 10px 0;
-        background-color: #f9fafc;
-    }
+
+  .box-card {
+    height: 350px;
+    width: 100%;
+  }
+
+  .el-row {
+    margin-bottom: 20px;
+
+  &
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+
+  .bg-purple {
+    background: #d3dce6;
+  }
+
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+
+  .grid-content {
+    border-radius: 4px;
+    height: 100%;
+    width: 100%;
+  }
+
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
 
 </style>

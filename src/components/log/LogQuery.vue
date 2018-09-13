@@ -24,7 +24,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="日志级别">
-              <el-select v-model="logLevel" placeholder="请选择">
+              <el-select v-model="logLevel" placeholder="请选择" multiple>
                 <el-option
                   v-for="item in logLevels"
                   :key="item.key"

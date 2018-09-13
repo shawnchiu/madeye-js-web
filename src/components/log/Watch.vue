@@ -40,7 +40,6 @@
               width="100px"
             >
             </el-table-column>
-
           </el-table>
         </el-card>
       </el-col>
