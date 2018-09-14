@@ -43,7 +43,6 @@
 
     .login-box {
         text-align: center; /*让div内部文字居中*/
-        background-color: #fff;
         border-radius: 20px;
         margin: auto;
         position: absolute;

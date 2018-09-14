@@ -1,20 +1,12 @@
-<template >
-  <el-container class="no-border" style="height: 100%;">
-    <el-header style='text-align: right; font-size: 12px'>
-      <el-dropdown>
-        <i class='el-icon-setting' style='margin-right: 15px'></i>
-        <el-dropdown-menu slot='dropdown'>
-          <el-dropdown-item>查看</el-dropdown-item>
-          <el-dropdown-item>新增</el-dropdown-item>
-          <el-dropdown-item>删除</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <span>王小虎</span>
+<template>
+  <el-container class="no-border">
+    <el-header style="width:100%; background-color: #409EFF ;box-shadow: 0px 5px 3px #DDD; margin-bottom: 8px;position:fixed; z-index:999; top:0;">
     </el-header>
-    <el-container class="no-border">
+    <el-container class="no-border" style="position: fixed">
       <el-aside width='200px;' style='background-color: #fff'>
         <el-menu class='el-menu-vertical no-border'
                  :default-active='$route.path'
+                 style="margin-top: 70px;height: 90%"
                  router>
           <el-menu-item :index='item.router' v-for='item in menu' :key='item.key' :id='item.key'>
             <i :class='item.icon'></i>
@@ -23,7 +15,7 @@
         </el-menu>
       </el-aside>
 
-      <el-main>
+      <el-main style="margin-top: 70px">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -66,12 +58,12 @@
           index: 4,
           icon: 'el-icon-tickets',
           router: '/business'
-        // }, {
-        //   name: '用户管理',
-        //   key: 'user',
-        //   index: 5,
-        //   icon: 'el-icon-service',
-        //   router: '/user'
+          // }, {
+          //   name: '用户管理',
+          //   key: 'user',
+          //   index: 5,
+          //   icon: 'el-icon-service',
+          //   router: '/user'
         },
 
       ];
