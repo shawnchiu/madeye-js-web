@@ -1,5 +1,5 @@
 <template>
-  <el-container direction="vertical" v-loading.sync="loading">
+  <el-container direction="vertical" v-loading.fullscreen.sync="loading">
     <el-row>
       <el-col>
         <el-card style="text-align: left;">
@@ -44,12 +44,19 @@
             </el-table-column>
             <el-table-column
               prop="apiToken"
-              label="ApiToken"
-              width="250px">
+              label="ApiToken">
             </el-table-column>
             <el-table-column
               prop="description"
               label="描述">
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="deleteBusiness(scope.row.businessCode)" type="text" size="small">删除</el-button>
+              </template>
             </el-table-column>
           </el-table>
           <el-pagination
@@ -95,7 +102,7 @@
         formLabelWidth: '80px',
         dialogFormVisible: false,
         condition: {businessName: '', page: 1, pageSize: 10},
-        queryResults:{content:[],totalElements:0},
+        queryResults: {content: [], totalElements: 0},
         business: {
           description: '',
           businessName: ''
@@ -109,7 +116,31 @@
         this.business.businessName = '';
         this.dialogFormVisible = false;
       },
-      onSubmit() {
+      deleteBusiness(businessCode) {
+        console.log(businessCode);
+        this.$confirm('此操作将永久删除该业务, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var _this = this;
+          Axios.get('http://localhost:20000/api/business/delete?businessCode='+businessCode)
+            .then(function (res) {
+              console.log(res);
+              _this.loading = false;
+              _this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              _this.conditionQuery();
+            })
+            .catch(function (err) {
+              _this.loading = false;
+              _this.$message.error(err.message);
+            });
+
+        }).catch(() => {
+        });
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {

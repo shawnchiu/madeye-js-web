@@ -53,25 +53,25 @@
           icon: 'el-icon-search',
           router: '/logQuery'
         },
-        {
-          name: '实时监控',
-          key: 'watch',
-          index: 3,
-          icon: 'el-icon-view',
-          router: '/logWatch'
-        },
+        // {
+        //   name: '实时监控',
+        //   key: 'watch',
+        //   index: 3,
+        //   icon: 'el-icon-view',
+        //   router: '/logWatch'
+        // },
         {
           name: '业务管理',
           key: 'business',
           index: 4,
           icon: 'el-icon-tickets',
           router: '/business'
-        }, {
-          name: '用户管理',
-          key: 'user',
-          index: 5,
-          icon: 'el-icon-service',
-          router: '/user'
+        // }, {
+        //   name: '用户管理',
+        //   key: 'user',
+        //   index: 5,
+        //   icon: 'el-icon-service',
+        //   router: '/user'
         },
 
       ];
